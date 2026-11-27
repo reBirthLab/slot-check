@@ -1,7 +1,9 @@
 on:
-  schedule:
-    - cron: '17,47 * * * *'
   workflow_dispatch:
+    inputs:
+      test:
+        type: boolean
+        default: true
 
 jobs:
   check:
@@ -13,5 +15,4 @@ jobs:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           API_URL: ${{ secrets.API_URL }}
           TARGET: ${{ vars.TARGET }}
-          MANUAL: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}
-          
+          TEST: ${{ inputs.test }}
