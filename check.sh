@@ -2,7 +2,7 @@
 set -euo pipefail
 
 now=$(TZ=Europe/Berlin date +%H%M)
-[[ ${TEST:-} == true ]] || sleep $((RANDOM % 600))
+[[ ${TEST:-} == true ]] || sleep $((RANDOM % 180))
 
 first=$(curl -fsS --max-time 20 -A 'appointment-check' \
   "$API_URL&startDate=$(date +%F)&endDate=$(date -d '+6 months' +%F)" \
