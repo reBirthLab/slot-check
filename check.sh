@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+now=$(TZ=Europe/Berlin date +%H%M)
+[[ ${TEST:-} == true ]] || sleep $((RANDOM % 600))
+
 first=$(curl -fsS --max-time 20 -A 'appointment-check' \
   "$API_URL&startDate=$(date +%F)&endDate=$(date -d '+6 months' +%F)" \
   | jq -r '.availableDays[0].date // empty')
 echo "earliest: ${first:-none}"
 
-now=$(TZ=Europe/Berlin date +%H%M)
 if [[ ${TEST:-} == true ]]; then
   msg="Test OK, earliest: ${first:-none}"
 elif [[ -n $first && $first < ${TARGET:-2027-01-20} ]]; then
