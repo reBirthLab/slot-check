@@ -1,0 +1,17 @@
+on:
+  schedule:
+    - cron: '17,47 * * * *'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: bash check.sh
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          API_URL: ${{ secrets.API_URL }}
+          TARGET: ${{ vars.TARGET }}
+          MANUAL: ${{ github.event_name == 'workflow_dispatch' && '1' || '' }}
+          
